@@ -27,18 +27,26 @@ from bs4 import BeautifulSoup
 ## find_urls("the internet is awesome #worldwideweb") should return [], empty list
 
 def find_urls(s):
-    return re.findall('https?://[a-z0-9]+[.][\S]+', s)
+    my_urls = re.findall('https?://[a-z0-9]+[.].[\S]+', s)      ## I am using findall() to specify which portion of the string I want to extract.
+    return my_urls                                             ## I want to extract URLs from string s that starts with 'http' or 'https', followed by '://', followed by one or more lowercase letters or digits, followed by a . (as in dot com), followed by at least two none-whitespace characters (e.g., .co and .com)                                
 
 ## PART 2  - Define a function grab_headlines.
 ## INPUT: N/A. No input.
 ## Grab the headlines from the "Most Read" section of 
 ## http://www.michigandaily.com/section/opinion
 
-def grab_headlines():
-    pass
-    #Your code here
+def grab_headlines():                  
+    my_url = 'http://www.michigandaily.com/section/opinion'
+    my_request = requests.get(my_url)
+    soup = BeautifulSoup(my_request.content, 'html.parser')
+    my_soup = soup.find(class_="view view-most-read view-id-most_read view-display-id-panel_pane_1 view-dom-id-99658157999dd0ac5aa62c2b284dd266")       ## I am finding the "Most Read" part of this html                      
+    my_links = my_soup.find_all('a')        ## I am finding all of the links under the "Most Read" header and putting them into a list
 
-
+    my_new_list = []                
+    for my_link in my_links:
+        my_new_list.append(my_link.text)        ## I am grabbing the headline of each link and appending it to a new list
+    return my_new_list
+     
 
 ## PART 3 (a) Define a function called get_umsi_data.  It should create a dictionary
 ## saved in a variable umsi_titles whose keys are UMSI people's names, and whose 
@@ -59,8 +67,8 @@ def get_umsi_data():
 ## INPUT: The dictionary from get_umsi_data().
 ## OUTPUT: Return number of PhD students in the data.  (Don't forget, I may change the input data)
 def num_students(data):
-    pass
-    #Your code here
+    num_phd_students = 0
+
 
 
 
@@ -88,9 +96,8 @@ def main():
     total += test(find_urls("http://.c"),[],10)
 
 
-    print('\n\nTask 2: Michigan Daily')
-    total += test(grab_headlines(),["MSW students protest staff member's email based on religious bias", 'Teen arrested at Blake Transit Center', "Racist flyers calling to 'Make America White Again' found near Stockwell", "Protesters take to LSA SG panel on C.C. Little's renaming", 'Michigan football player Nate Johnson arrested for domestic violence'],50)
-
+    print('Task 2: Michigan Daily')
+    total += test(grab_headlines(),['Students attempt to shut down speech by controversial social scientist Charles Murray ', 'Orion Sang: Michigan should see what it has with Peters', "Protesters grapple with Charles Murray's appearance on campus", "'Lil Pump' delivers hype despite a lack of substance", "'Jane the Virgin' becomes Adam the Virgo in season 4 shift"] ,50)
 
     print('\n\nTask 3: UMSI Directory')
 
