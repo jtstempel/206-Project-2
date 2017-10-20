@@ -2,7 +2,7 @@
 
 ## COMMENT HERE WITH:
 ## Your name: Joseph Stempel
-## Anyone you worked with on this project: I talked through Part 3(a) with Ava Weiner.
+## Anyone you worked with on this project: I worked on Part 3(a) with Ava Weiner.
 
 ## Below we have provided import statements, comments to separate out the 
 #parts of the project, instructions/hints/examples, and at the end, TESTS.
